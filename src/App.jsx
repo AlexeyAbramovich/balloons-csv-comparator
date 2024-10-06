@@ -1,8 +1,8 @@
 import Papa from 'papaparse'
 import DownloadButton from './components/DownloadButton'
 import Input from './components/Input'
-import UpdateButton from './components/UpdateButton'
 import { useUpdater } from './useUpdater'
+import { useUpdateRest } from './useUpdateRest'
 
 function App() {
 	const {
@@ -15,6 +15,8 @@ function App() {
 		firstFileInput,
 		secondFileInput,
 	} = useUpdater()
+
+	useUpdateRest(parsedDataFirstFile, parsedDataSecondFile, setParsedDataUpdated)
 
 	const onChangeHandler = event => {
 		Papa.parse(event.target.files[0], {
@@ -32,32 +34,6 @@ function App() {
 		})
 	}
 
-	const handleClick = () => {
-		const parsedFileUpdatedCopy = Array.from(parsedDataFirstFile)
-		if (parsedDataFirstFile.length !== 0 && parsedDataSecondFile.length !== 0) {
-			console.log('Артикул ---- Было - Стало')
-			parsedFileUpdatedCopy.forEach(record => {
-				parsedDataSecondFile.forEach(rec => {
-					if (
-						record['Артикул'] &&
-						rec['Артикул'] &&
-						record['Артикул'] === rec['Артикул']
-					) {
-						console.log(
-							`${record['Артикул']} ---- ${record['Остаток']} - ${Number(
-								rec['Остаток по складу'].replace(',', '.')
-							)}`
-						)
-						record['Остаток'] = Number(
-							rec['Остаток по складу'].replace(',', '.')
-						)
-					}
-				})
-			})
-			setParsedDataUpdated(parsedFileUpdatedCopy)
-		}
-	}
-
 	const handleResetClick = () => {
 		if (firstFileInput.current && secondFileInput.current) {
 			firstFileInput.current.value = null
@@ -73,11 +49,6 @@ function App() {
 			<h2>Обновление остатков CSV</h2>
 			<Input reference={firstFileInput} onChangeHandler={onChangeHandler} />
 			<Input reference={secondFileInput} onChangeHandler={onChangeHandler} />
-			<UpdateButton
-				parsedDataFirstFile={parsedDataFirstFile}
-				parsedDataSecondFile={parsedDataSecondFile}
-				handleClick={handleClick}
-			/>
 			<DownloadButton
 				parsedDataUpdated={parsedDataUpdated}
 				handleResetClick={handleResetClick}
