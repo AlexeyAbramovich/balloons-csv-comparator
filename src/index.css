@@ -22,12 +22,20 @@ a:hover {
 	color: #535bf2;
 }
 
+p {
+	margin: 0;
+}
+
+span {
+	color: #646cff;
+}
+
 body {
 	margin: 0;
 	display: flex;
 	place-items: center;
-	min-width: 320px;
 	min-height: 100vh;
+	overflow-x: hidden;
 }
 
 #root {
@@ -36,8 +44,25 @@ body {
 	padding: 2rem;
 	display: flex;
 	justify-content: center;
+	column-gap: 40px;
+}
+
+.wrapper,
+.wrapper_info {
+	display: flex;
+	justify-content: center;
 	flex-direction: column;
 	row-gap: 20px;
+}
+
+.wrapper {
+	max-width: 300px;
+}
+
+.wrapper_info {
+	max-width: 500px;
+	font-size: 14px;
+	row-gap: 10px;
 }
 
 h2 {
@@ -68,6 +93,16 @@ button:hover {
 button:focus,
 button:focus-visible {
 	outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (max-width: 920px) {
+	#root {
+		width: 100%;
+		flex-direction: column;
+		align-items: center;
+		row-gap: 40px;
+		padding: 20px 10px;
+	}
 }
 
 @media (prefers-color-scheme: light) {

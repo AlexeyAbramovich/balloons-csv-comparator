@@ -1,5 +1,6 @@
 import Papa from 'papaparse'
 import DownloadButton from './components/DownloadButton'
+import Info from './components/Info'
 import Input from './components/Input'
 import { useUpdater } from './useUpdater'
 import { useUpdateRest } from './useUpdateRest'
@@ -24,10 +25,10 @@ function App() {
 			skipEmptyLines: true,
 			complete: function (results) {
 				if (results.data.length !== 0) {
-					if (results.data[0].hasOwnProperty('Товар')) {
-						setParsedDataSecondFile(results.data)
-					} else {
+					if (results.data[0].hasOwnProperty('ID варианта')) {
 						setParsedDataFirstFile(results.data)
+					} else {
+						setParsedDataSecondFile(results.data)
 					}
 				}
 			},
@@ -46,13 +47,16 @@ function App() {
 
 	return (
 		<>
-			<h2>Обновление остатков CSV</h2>
-			<Input reference={firstFileInput} onChangeHandler={onChangeHandler} />
-			<Input reference={secondFileInput} onChangeHandler={onChangeHandler} />
-			<DownloadButton
-				parsedDataUpdated={parsedDataUpdated}
-				handleResetClick={handleResetClick}
-			/>
+			<div className='wrapper'>
+				<h2>Обновление остатков CSV</h2>
+				<Input reference={firstFileInput} onChangeHandler={onChangeHandler} />
+				<Input reference={secondFileInput} onChangeHandler={onChangeHandler} />
+				<DownloadButton
+					parsedDataUpdated={parsedDataUpdated}
+					handleResetClick={handleResetClick}
+				/>
+			</div>
+			<Info />
 		</>
 	)
 }
