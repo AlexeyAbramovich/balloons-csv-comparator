@@ -16,14 +16,15 @@ export const useUpdateRest = (
 						rec['Артикул'] &&
 						record['Артикул'] === rec['Артикул']
 					) {
+						const store = +rec['Остаток по складу'].replace(',', '.')
+
 						console.log(
-							`${record['Артикул']} ---- ${record['Остаток']} - ${Number(
-								rec['Остаток по складу'].replace(',', '.')
-							)}`
+							`${record['Артикул']} ---- ${record['Остаток']} - ${
+								store === 0.01 ? '0.01(0)' : store
+							}`
 						)
-						record['Остаток'] = Number(
-							rec['Остаток по складу'].replace(',', '.')
-						)
+
+						record['Остаток'] = store === 0.01 ? 0 : store
 					}
 				})
 			})
